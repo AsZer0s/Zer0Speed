@@ -24,16 +24,12 @@ class UserBindManager {
                 return;
             }
 
-            // 清理旧的绑定Map
             this.bindMap.clear();
-            
-            // 检查并只加载有效的卡密绑定
             for (let i = 1; i < lines.length - 1; i++) {
                 const line = lines[i].trim();
                 if (line && !line.startsWith('#')) {
                     const [cdk, username] = line.split(':').map(s => s.trim());
                     if (cdk && username) {
-                        // 只有当卡密存在且未过期时才保留绑定
                         if (userMap.has(cdk) && userMap.get(cdk) > 0) {
                             this.bindMap.set(cdk, username);
                         } else {
@@ -43,7 +39,6 @@ class UserBindManager {
                 }
             }
             
-            // 保存清理后的绑定关系
             this.saveBinds();
             console.log(`[+]成功加载${this.bindMap.size}个有效卡密绑定`);
         } catch (error) {
@@ -55,13 +50,12 @@ class UserBindManager {
         try {
             let content = 'HoweCraft User Bind\n';
             
-            // 再次检查并只保存有效的绑定
             for (const [cdk, username] of this.bindMap) {
                 if (userMap.has(cdk) && userMap.get(cdk) > 0) {
                     content += `${cdk}:${username}\n`;
                 } else {
                     console.log(`[x]移除无效卡密绑定: ${cdk} -> ${username}`);
-                    this.bindMap.delete(cdk);  // 从内存中也删除
+                    this.bindMap.delete(cdk);
                 }
             }
             
@@ -74,7 +68,6 @@ class UserBindManager {
     }
 
     bind(cdk, username) {
-        // 检查卡密是否有效
         if (!userMap.has(cdk) || userMap.get(cdk) <= 0) {
             console.log(`[!]无法绑定无效卡密: ${cdk}`);
             return false;
@@ -105,7 +98,6 @@ class UserBindManager {
         }
     }
 
-    // 检查并清理过期绑定
     cleanupExpiredBinds() {
         let cleaned = 0;
         for (const [cdk, username] of this.bindMap) {
@@ -122,7 +114,6 @@ class UserBindManager {
     }
 
     isBound(cdk) {
-        // 检查绑定前先验证卡密是否有效
         if (!userMap.has(cdk) || userMap.get(cdk) <= 0) {
             if (this.bindMap.has(cdk)) {
                 console.log(`[x]删除过期卡密绑定: ${cdk}`);
@@ -135,7 +126,6 @@ class UserBindManager {
     }
 
     getBoundUser(cdk) {
-        // 如果卡密无效，返回null
         if (!userMap.has(cdk) || userMap.get(cdk) <= 0) {
             return null;
         }
@@ -143,7 +133,6 @@ class UserBindManager {
     }
 
     checkBinding(cdk, username) {
-        // 如果卡密无效，直接返回false
         if (!userMap.has(cdk) || userMap.get(cdk) <= 0) {
             return false;
         }

@@ -77,7 +77,7 @@ export function createCont(cliObj, clientId)
             console.log(`[+]玩家登录: ${playerName}`);
             
             if (ret.CDK && userBind.isBound(ret.CDK)) {
-                console.log(`[DEBUG]卡密 ${ret.CDK} 已绑定: ${userBind.getBoundUser(ret.CDK)}`);
+                console.log(`[=]卡密 ${ret.CDK} 已绑定: ${userBind.getBoundUser(ret.CDK)}`);
                 if (!userBind.checkBinding(ret.CDK, playerName)) {
                     console.log(`[!]用户 ${playerName} 未绑定卡密 ${ret.CDK}`);
                     return;
@@ -125,6 +125,7 @@ export function createCont(cliObj, clientId)
         server.s.on("end", function ()
         {
             cliObj.destroy();
+            userBind.loadBinds();
         });
 
         yield* CliBuffer.wait();
