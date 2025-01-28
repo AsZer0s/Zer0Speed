@@ -1,10 +1,11 @@
 {
     "port": 25565,
-    "remoteIP": "mc.hypixel.net",
+    "remoteIP": "As.Minemen.Club",
     "remotePort": 25565,
     "modifyIp_HS": true,
     "modifyIp": "",
     "modifyP_MOTD": true,
-    "modifyMOTD": "§l§6欢迎您使用 §r§eHoweCraft NetWork §r§b加速IP线路\n§r§a剩余时长: §r§c${time}",
-    "CDKey_mod": true
+    "modifyMOTD": "§l§6欢迎您使用 §r§eHoweCraft NetWork §r§b加速IP线路\n§r§a剩余时长: §r§c${time} | §r§a当前加速服务器: §r§c${server}",
+    "CDKey_mod": true,
+    "token": "HoweCraft"
 }

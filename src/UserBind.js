@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { userMap } from './userList.js';  // 导入userMap来检查卡密状态
+import { userMap } from './userList.js';
 
 class UserBindManager {
     constructor() {

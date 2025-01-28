@@ -149,6 +149,9 @@ export function createCont(cliObj, clientId)
                 }
             }
             MOTD_cache.description = opt.modifyMOTD;
+
+            const serverName = opt.remoteIP.split('.')[1] || 'unknown';
+
             var MOTD_Time = "";
             if (userMap.has(ret.CDK))
             {
@@ -160,7 +163,8 @@ export function createCont(cliObj, clientId)
             }
             else
                 MOTD_Time = "已失效";
-            MOTD_cache.description = MOTD_cache.description.replace("${time}", MOTD_Time);
+
+            MOTD_cache.description = MOTD_cache.description.replace("${time}", MOTD_Time).replace("${server}", serverName);
             pack[1] = JSON.stringify(MOTD_cache);
             client.writeP("v ls", pack);
         }
