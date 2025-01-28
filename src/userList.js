@@ -22,7 +22,7 @@ export function readList()
         var list = str.split("\n");
     if (list[0] != "HoweCraft key list" || list[list.length - 1] != "HoweCraft key list end")
     {
-        console.log("[Error]读取卡密失败");
+        console.log("[x]读取卡密失败");
             return;
         }
     list.slice(1, -1);

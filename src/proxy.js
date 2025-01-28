@@ -51,7 +51,6 @@ export function createCont(cliObj, clientId)
         
         let savedLoginPacket = null;
         
-        // 先处理 CDK
         if (opt.CDKey_mod) {
             var o_ip = p_handshaking[2];
             var ind_ip = o_ip.indexOf(".");
@@ -125,7 +124,6 @@ export function createCont(cliObj, clientId)
         server.s.on("end", function ()
         {
             cliObj.destroy();
-            userBind.loadBinds();
         });
 
         yield* CliBuffer.wait();

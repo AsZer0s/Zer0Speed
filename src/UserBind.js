@@ -1,6 +1,8 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { userMap } from './userList.js';
 
+export const bindMap = new Map();
+
 class UserBindManager {
     constructor() {
         this.bindPath = './bind.txt';
@@ -61,9 +63,9 @@ class UserBindManager {
             
             content += 'HoweCraft User Bind End';
             writeFileSync(this.bindPath, content, 'utf8');
-            console.log('[+]已保存卡密绑定');
+            console.log('[+]卡密绑定重载成功');
         } catch (error) {
-            console.error('[!]保存卡密绑定失败:', error);
+            console.error('[!]卡密绑定重载失败:', error);
         }
     }
 
@@ -138,6 +140,21 @@ class UserBindManager {
         }
         const boundUser = this.bindMap.get(cdk);
         return boundUser === username;
+    }
+
+    syncBindsWithKeys() {
+        let removed = 0;
+        for (const cdk of this.bindMap.keys()) {
+            if (!userMap.has(cdk) || userMap.get(cdk) <= 0) {
+                this.bindMap.delete(cdk);
+                removed++;
+                console.log(`[x]同步删除过期卡密绑定: ${cdk}`);
+            }
+        }
+        if (removed > 0) {
+            this.saveBinds();
+            console.log(`[+]已同步删除 ${removed} 个过期卡密绑定`);
+        }
     }
 }
 
