@@ -65,7 +65,7 @@ setInterval(() => {
     });
     saveList();
     console.log("[-]用户时间已刷新");
-}, 5 * 60 * 10);
+}, 5 * 60 * 10000);
 
 let previousLineCount = 0;
 fs.watch(keyFilePath, (eventType) => {
