@@ -9,3 +9,7 @@ import('./server.js').then(({ createSer }) => {
         createSer(createCont, opt.port);
     });
 });
+
+import('./web.js').then(({ startWebServer }) => {
+    startWebServer();
+});

@@ -1,5 +1,6 @@
 import esbuild from 'esbuild';
 import fs from 'fs';
+import path from 'path';
 import obfuscator from 'javascript-obfuscator';
 
 esbuild.build({
@@ -33,5 +34,19 @@ esbuild.build({
     }).getObfuscatedCode();
 
     fs.writeFileSync('dist/main.cjs', obfuscatedCode, 'utf8');
-    console.log('代码已混淆并保存到 dist/main.cjs');
+
+    const publicDir = path.join(path.resolve(), './public');
+    const distDir = path.join(path.resolve(), 'dist', 'public');
+
+    if (!fs.existsSync(distDir)) {
+        fs.mkdirSync(distDir, { recursive: true });
+    }
+
+    fs.readdirSync(publicDir).forEach(file => {
+        const srcPath = path.join(publicDir, file);
+        const destPath = path.join(distDir, file);
+        fs.copyFileSync(srcPath, destPath);
+    });
+
+    console.log('静态文件已复制到 dist/public');
 }).catch(() => process.exit(1)); 
