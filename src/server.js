@@ -10,7 +10,7 @@ const { token: validToken } = options;
 const keyFilePath = path.join(path.resolve(), 'key.txt');
 
 var clientCount = 0;
-const clients = new Map();
+export const clients = new Map();
 
 export function createSer(callBack, port) {
     createTcpServer(function (client) {

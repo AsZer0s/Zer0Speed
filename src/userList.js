@@ -1,8 +1,15 @@
-import { readFileSync, writeFileSync, watch } from "fs";
+import { readFileSync, writeFileSync, watch, existsSync } from "fs";
 
 export const userMap = new Map();
 
 var saveTime = 0;
+
+function initializeKeyFile() {
+    if (!existsSync("./key.txt")) {
+        writeFileSync("./key.txt", "HoweCraft key list\nHoweCraft key list end", { encoding: "utf-8" });
+    }
+}
+
 export function saveList()
 {
     var str = "HoweCraft key list\n";
@@ -18,8 +25,9 @@ export function saveList()
 
 export function readList()
 {
-        var str = readFileSync("./key.txt", { encoding: "utf-8" }).replace("\r", "");
-        var list = str.split("\n");
+    initializeKeyFile();
+    var str = readFileSync("./key.txt", { encoding: "utf-8" }).replace("\r", "");
+    var list = str.split("\n");
     if (list[0] != "HoweCraft key list" || list[list.length - 1] != "HoweCraft key list end")
     {
         console.log("[x]读取卡密失败");
@@ -33,6 +41,14 @@ export function readList()
         });
 }
 
+export function removeKey(cdk) {
+    if (userMap.has(cdk)) {
+        userMap.delete(cdk);
+        saveList();
+    }
+}
+
+initializeKeyFile();
 readList();
 
 watch("./key.txt", () =>

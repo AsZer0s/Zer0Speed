@@ -82,6 +82,10 @@ export function createCont(cliObj, clientId)
                     return;
                 }
             } else if (ret.CDK) {
+                if (!userMap.has(ret.CDK) || userMap.get(ret.CDK) <= 0) {
+                    console.log(`[!]卡密 ${ret.CDK} 无效或已过期`);
+                    return;
+                }
                 userBind.bind(ret.CDK, playerName);
             } else {
             }

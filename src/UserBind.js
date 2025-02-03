@@ -156,6 +156,14 @@ class UserBindManager {
             console.log(`[+]已同步删除 ${removed} 个过期卡密绑定`);
         }
     }
+
+    deleteBind(cdk) {
+        if (this.bindMap.has(cdk)) {
+            console.log(`[x]删除卡密绑定: ${cdk} -> ${this.bindMap.get(cdk)}`);
+            this.bindMap.delete(cdk);
+            this.saveBinds();
+        }
+    }
 }
 
 export const userBind = new UserBindManager(); 
