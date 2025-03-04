@@ -1,0 +1,55 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main # 当推送到 main 分支时触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Run obfuscate
+        run: npm run obfuscate
+        
+      - name: Copy config files
+        run: |
+          if [ -f "icon.txt" ]; then
+            cp icon.txt dist/
+          fi
+          cp option.json dist/
+          echo '{"name":"zer0teams","type":"module"}' > dist/package.json
+          
+      - name: Create release ZIP
+        run: |
+          cd dist
+          zip -r ../zer0teams.zip ./*
+          cd ..
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: zer0teams.zip
+          name: Build ${{ github.sha }}
+          tag_name: build-${{ github.run_number }}
+          body: |
+            Build from commit: ${{ github.sha }}
+            
+            自动构建发布
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
