@@ -22,7 +22,12 @@ jobs:
         run: npm install
         
       - name: Build project
-        run: npm run build
+        run: |
+          npm run build || {
+            echo "Build failed. Checking error logs..."
+            cat dist/main.cjs || true
+            exit 1
+          }
         
       - name: Run obfuscate
         run: npm run obfuscate
