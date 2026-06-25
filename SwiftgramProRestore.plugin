@@ -1,7 +1,7 @@
 #!name= Swiftgram Pro 恢复购买
-#!desc= 劫持 api.swiftgram.app 与 my.swiftgram.app 响应，注入已订阅状态以恢复 Swiftgram Pro 功能。需开启 MITM 并安装 CA 证书。
+#!desc= 劫持 api.swiftgram.app / my.swiftgram.app / GitHub 设置 / Apple 收据验证 响应，注入已订阅状态以恢复 Swiftgram Pro 功能。需开启 MITM 并安装 CA 证书。
 #!author=
-#!homepage= https://t.me/Swiftgram
+#!homepage=https://t.me/Swiftgram
 #!icon=
 
 [General]
@@ -13,14 +13,20 @@ dns-server =
 [rule]
 DOMAIN-SUFFIX,api.swiftgram.app,DIRECT
 DOMAIN-SUFFIX,my.swiftgram.app,DIRECT
+DOMAIN-SUFFIX,raw.githubusercontent.com,DIRECT
+DOMAIN-SUFFIX,buy.itunes.apple.com,DIRECT
+DOMAIN-SUFFIX,sandbox.itunes.apple.com,DIRECT
 
 [rewrite]
 
 [host]
 
 [script]
-http-response ^https:\/\/api\.swiftgram\.app\/.* requires-body=true, script-path=https://raw.githubusercontent.com/AsZer0s/Zer0Speed/refs/heads/main/swiftgram_pro_restore.js, tag=Swiftgram Pro 恢复, enable=true, timeout=30
-http-response ^https:\/\/my\.swiftgram\.app\/.* requires-body=true, script-path=https://raw.githubusercontent.com/AsZer0s/Zer0Speed/refs/heads/main/swiftgram_pro_restore.js, tag=Swiftgram Pro 恢复, enable=true, timeout=30
+http-response ^https:\/\/api\.swiftgram\.app\/.* requires-body=true, script-path=https://raw.githubusercontent.com/AsZer0s/Zer0Speed/refs/heads/main/swiftgram_pro_restore.js, tag=Swiftgram Pro API, enable=true, timeout=30
+http-response ^https:\/\/my\.swiftgram\.app\/.* requires-body=true, script-path=https://raw.githubusercontent.com/AsZer0s/Zer0Speed/refs/heads/main/swiftgram_pro_restore.js, tag=Swiftgram Pro Web, enable=true, timeout=30
+http-response ^https:\/\/raw\.githubusercontent\.com\/Swiftgram\/settings\/.*\.json requires-body=true, script-path=https://raw.githubusercontent.com/AsZer0s/Zer0Speed/refs/heads/main/swiftgram_pro_restore.js, tag=Swiftgram Pro Settings, enable=true, timeout=30
+http-response ^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt requires-body=true, script-path=https://raw.githubusercontent.com/AsZer0s/Zer0Speed/refs/heads/main/swiftgram_pro_restore.js, tag=Swiftgram Apple Receipt, enable=true, timeout=30
+http-response ^https:\/\/sandbox\.itunes\.apple\.com\/verifyReceipt requires-body=true, script-path=https://raw.githubusercontent.com/AsZer0s/Zer0Speed/refs/heads/main/swiftgram_pro_restore.js, tag=Swiftgram Apple Receipt SB, enable=true, timeout=30
 
 [mitm]
-hostname = api.swiftgram.app, my.swiftgram.app
+hostname = api.swiftgram.app, my.swiftgram.app, raw.githubusercontent.com, buy.itunes.apple.com, sandbox.itunes.apple.com
